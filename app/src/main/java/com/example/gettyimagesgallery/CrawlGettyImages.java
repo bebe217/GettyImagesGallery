@@ -16,9 +16,11 @@ public class CrawlGettyImages {
     private static final String TAG = "CrawlGettyImages";
 
     public static final String URL = "https://www.gettyimages.com/photos/collaboration?page=";
-    public static final String ImageClass = "gallery-mosaic-asset__thumb";
+    public static final String IMG_CLASS_NAME = "gallery-mosaic-asset__thumb";
 
-    public static int pageNum = 1;
+    public static final int MAX_PAGE_NUM = 100;
+
+    public static int pageNum = 0;
 
     private static CrawlGettyImages crawler = new CrawlGettyImages();
 
@@ -37,13 +39,12 @@ public class CrawlGettyImages {
 
     public List<String> getImageUrls() {
         List<String> urls = new ArrayList<>();
-        if (pageNum <= 100) {
+        if (pageNum <= MAX_PAGE_NUM) {
             try {
                 Document document = Jsoup.connect(URL + pageNum).get();
-                Elements imageTags = document.getElementsByClass(ImageClass);
+                Elements imageTags = document.getElementsByClass(IMG_CLASS_NAME);
                 for (Element e : imageTags) {
-                    System.out.println(e.toString());
-                    urls.add(e.absUrl("src").toString());
+                    urls.add(e.absUrl("src"));
                 }
             } catch (IOException e) {
                 Log.e(TAG, "getImageUrls: ", e);

@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
         binding.recyclerView.adapter = recyclerViewAdapter
 
-        viewModel.getImages()
-        viewModel.imageUrlsLiveData.observe(this, Observer {
+        viewModel.getNewImages()
+        viewModel.imageUrlsLiveData.observe(this, {
             recyclerViewAdapter.updateData(it)
             isLoading = false
         })
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 if (!binding.recyclerView.canScrollVertically(1)) {
                     if (isLoading) return
                     isLoading = true
-                    viewModel.getNextImages()
+                    viewModel.getNewImages()
                 }
             }
         })

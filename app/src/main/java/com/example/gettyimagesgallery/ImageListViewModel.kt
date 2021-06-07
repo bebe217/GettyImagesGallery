@@ -11,19 +11,11 @@ class ImageListViewModel : ViewModel() {
         MutableLiveData<ArrayList<String>>()
     }
 
-    private val crawler = CrawlGettyImages.getInstance()
     private var imageUrls = ArrayList<String>()
 
-    fun getImages() {
+    fun getNewImages() {
         viewModelScope.launch(Dispatchers.IO) {
-            imageUrls.addAll(crawler.imageUrls)
-            imageUrlsLiveData.postValue(imageUrls)
-        }
-    }
-
-    fun getNextImages() {
-        viewModelScope.launch(Dispatchers.IO) {
-            imageUrls.addAll(crawler.nextImagesUrls)
+            imageUrls.addAll(CrawlGettyImages.getInstance().nextImagesUrls)
             imageUrlsLiveData.postValue(imageUrls)
         }
     }
